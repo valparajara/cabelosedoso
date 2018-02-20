@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const inspect = require('eyes').inspector();
+const cors = require('cors');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors());
 
 // Routers
 const campanha = require('./routers/campanhas');

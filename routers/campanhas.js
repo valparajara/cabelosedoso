@@ -10,5 +10,4 @@ router.post('/', campanha_controller.incluir);
 router.put('/encerrar/:id', campanha_controller.encerrar);
 router.put('/ativar/:id', campanha_controller.ativar);
 
-
 module.exports = router;

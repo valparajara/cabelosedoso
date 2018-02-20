@@ -12,8 +12,9 @@ const campanhas = new Schema({
 const CampanhaModel = mongoose.model('CampanhaModel', campanhas );
 /*
 campanha: {
-    nome: 'campanha 1',
-    itens: ['maça','pera','cabeloslisos','rosas']
+    campanha: 'campanha 1',
+    itens: ['maça','pera','cabeloslisos','rosas'],
+    ativo: false
 }
 */
 
