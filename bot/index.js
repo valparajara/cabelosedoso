@@ -3,7 +3,8 @@ const request = require('request');
 const Twitter = require('node-tweet-stream');
 const moment = require('moment');
 const inspect = require('eyes').inspector();
-const URL_BACKEND = 'http://localhost:3000/campanha';
+const URL_BACKEND_CAMPANHA = 'http://localhost:3000/campanha';
+const URL_BACKEND_TWEETS = 'http://localhost:3000/tweets';
 const twitter_stream = new Twitter({
   consumer_key: 'Dw7cNFzw18jolhJaAhbpuAmOi',
   consumer_secret: 'BLhUDI3SgqMMohqGNltRiQrRgcCjTi27QKE1SfywR0lZvd84zH',
@@ -11,9 +12,10 @@ const twitter_stream = new Twitter({
   token_secret: 'oG0Q5us9IlOuoJB04zMtkaDv19VCDGohznLeTiW57rOHZ'
 });
 
-const TweetModel = require('../models/tweets.js');
+const TweetModel = require('../models/tweets');
+const CampanhaModel = require('../models/campanha');
 
-request.get(URL_BACKEND, function (error, response, body) {
+request.get(URL_BACKEND_CAMPANHA, function (error, response, body) {
 
   if (error) throw new Error('Erro ao conectar ao Backend');
 
@@ -21,6 +23,7 @@ request.get(URL_BACKEND, function (error, response, body) {
   let campanhaId    = campanhaAtiva[0].id;
   let campanhaNome    = campanhaAtiva[0].campanha;
   let palavras_chaves = campanhaAtiva[0].itens;
+  
 
   // Debug
   // inspect(campanhaAtiva);
@@ -43,6 +46,8 @@ request.get(URL_BACKEND, function (error, response, body) {
     //colocando o item selecionado dentro do objeto
     data.item = itemSelecionado;
 
+    inspect(data);
+
     // Dispara evento do Socket.io para o front
     disparaEventoFront(data);
     
@@ -61,14 +66,18 @@ request.get(URL_BACKEND, function (error, response, body) {
 
 
   const insereDadosTweet = ({ id_tweet, id_campanha, texto, data, item}) => {
-  TweetModel.create({ id_tweet: id_tweet, id_campanha: id_campanha, texto: texto, data: data, item: item }, (err, ret) => {
-    if (err) throw new Error({'erro':'Erro ao incluir dados'});
-    if (!err){
-        inspect('inserido com sucesso')
-        inspect({ id_tweet: id_tweet, id_campanha: id_campanha, texto: texto, data: data, item: item });
-    }
-  });
-}
+    // request.post({url:'http://service.com/upload', form: {key:'value'}}, function(err,httpResponse,body){ /* ... */ })
+    request.post({
+      url:URL_BACKEND_TWEETS, 
+      form:{
+        id_campanha: id_campanha,
+        texto_tweet: texto,
+        data_tweet: data,
+        item_tweet: item
+      }
+    }, function (error, response, body) {
+    });
+  }
 
 twitter_stream.on('error', function (err) {
   console.log('Oh no')

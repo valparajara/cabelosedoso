@@ -29,10 +29,12 @@ app.use(cookieParser());
 
 // Routers
 const campanha = require('./routers/campanhas');
+const tweets = require('./routers/tweets');
 
 
 // Associando
 app.use('/campanha', campanha);
+app.use('/tweets', tweets);
 
 app.listen(app.get('port'), function() {
   inspect(app.get('port'),'Cabelo Sedoso Backend listening on port ');
