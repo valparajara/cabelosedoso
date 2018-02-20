@@ -4,7 +4,7 @@ const inspect = require('eyes').inspector();
 
 const campanhaCreate = (req, res, next) => {
     const campanhaNome = req.body.campanha;
-    const listaItens = req.body.itens.split(',');
+    const listaItens = req.body.campanha.itens;
     CampanhaModel.create({ campanha: campanhaNome, itens: listaItens, ativo: false}, (err, ret) => {
         if (err) throw new Error({'erro':'Erro ao incluir dados'});
         if (!err){
@@ -48,6 +48,7 @@ const campanhaListar = (req, res, next) => {
         }
         });
 }
+
 
 exports.incluir = campanhaCreate;
 exports.encerrar = campanhaEncerrar;
