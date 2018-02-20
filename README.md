@@ -1,27 +1,16 @@
-# Cabelos Sedosos
 
-### instalação
+# Cabelo Sedoso
 
-$ npm install
+O Backend consiste em um duas partes: um backend com uma API REST e um BOT para capturar os "streams" das atualizações do twitter.
 
-É necessario o MongoDB com o database: "cabelos" na porta default
+Necessário instalar o MongoDb e criar o database: "cabelos" e duas collections: "campanhas" e "tweets".
 
-## backend 
+Passos:
 
-node index.js
+## Instalação Backend:
 
-endpoints: 
+`npm install && node index.js`
 
-GET http://localhost:3000/campanha - Lista todas as campanhas ativas
+## Instalação Bot: 
 
-POST http://localhost:3000/campanha - inclui uma campanha
-
-PUT http://localhost:3000/campanha/encerrar/id - encerra uma campanha
-
-GET http://localhost:3000/campanha/ativar/id - ativa uma campanha
-
-
-## bot twitter
-
-node bot/index.js
-
+`npm install && node index.js`
