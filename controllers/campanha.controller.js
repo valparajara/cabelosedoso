@@ -1,5 +1,7 @@
 const httpStatus = require('http-status-codes');
-const CampanhaModel = require('../models/campanha');
+const TweetsModel = require('../models/tweets');
+const moment = require('moment');
+const _ = require('lodash');
 const inspect = require('eyes').inspector();
 
 const campanhaCreate = (req, res, next) => {
@@ -49,7 +51,24 @@ const campanhaListar = (req, res, next) => {
         });
 }
 
+const campanhaRelatorio = (req, res, next) => { 
+    // parseInt(moment(new Date(doc[0].data)).format("HH"))
+    TweetsModel.find({}).exec((err, doc) => {
+        let _dados = [];
+        if (err) throw new Error({'erro':'Erro ao listar dados'});
+        if (!err){
+            let _resposta = _.countBy(doc,(data) => moment(new Date(data.data)).format("HH"));
+            Object.entries(_resposta).forEach(([key, value]) => {
+                _dados.push({hora: key, total: value})   
+            });
+            res.status(httpStatus.CREATED);
+            res.status(httpStatus.OK).json(_dados);
+        }
+        });
+}
+
 exports.incluir = campanhaCreate;
 exports.encerrar = campanhaEncerrar;
 exports.listar = campanhaListar;
+exports.relatorio = campanhaRelatorio;
 exports.ativar = campanhaAtivar;
