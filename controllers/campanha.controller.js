@@ -1,4 +1,5 @@
 const httpStatus = require('http-status-codes');
+const CampanhaModel = require('../models/campanha');
 const TweetsModel = require('../models/tweets');
 const moment = require('moment');
 const _ = require('lodash');
